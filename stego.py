@@ -12,8 +12,18 @@ def derive_key(password, salt='stegano_salt', length=32):
     return base64.urlsafe_b64encode(key).decode('utf-8')[:length]
 ########################################
 
+def check_image_format(img_path):
+    valid_formats = ['PNG', 'BMP']
+    img = Image.open(img_path)
+    if img.format not in valid_formats:
+        print(f"❌ Error: Unsupported image format '{img.format}'. Only PNG and BMP are supported.")
+        return False
+    return True
+
 
 def embed_encrypted_message(img_path, message, key, output_path):
+    if not check_image_format(img_path):
+        return
     encrypted_message = encrypt_message(key, message)
     img = Image.open(img_path)
     encoded_img = img.copy()
@@ -38,6 +48,8 @@ def embed_encrypted_message(img_path, message, key, output_path):
     print("❌ Error: Message is too large to fit in the image.")
 
 def extract_and_decrypt_message(img_path, key):
+    if not check_image_format(img_path):
+        return None
     img = Image.open(img_path)
     width, height = img.size
     
