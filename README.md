@@ -18,7 +18,7 @@
    ```bash
    git clone https://github.com/achntj/stegify.git
    cd stegify
-   pip install -r requirements.txt
+   pip install Pillow pycryptodome
    ```
 ### **Usage:**
 
